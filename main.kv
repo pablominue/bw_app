@@ -90,6 +90,7 @@ ScreenManager:
                     height: 50
                     #pos:(300, 250)
                     on_release:
+                        nav_drawer.set_state()
                         sm_sub.current='home'
                 Button:
                     text:"Packs"
@@ -99,5 +100,6 @@ ScreenManager:
                     height: 50
                     #pos:(300, 250)
                     on_release:
+                        nav_drawer.set_state()
                         sm_sub.current='packs'
   
