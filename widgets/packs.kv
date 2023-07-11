@@ -3,29 +3,58 @@
 
 <PackWin>:
     GridLayout:
-        #size_hint: self.width, self.height
+        size: root.width - 50, root.height -50
+        pos: 25,25
+        halign: 'center'
+        valign: 'center'
         cols:1
-        Button:
-            md_bg_color:utils.get_color_from_hex('#B1CCC3') 
-            font_size: 25
+        MDLabel:
+            md_bg_color: utils.get_color_from_hex('#B1CCC3')
+            halign: 'center'
+            valign: 'center'
+            markup: True
             color: utils.get_color_from_hex('#224238')
+            rgb: utils.get_color_from_hex('#224238')
+            font_size: 20
+            text:"[b]Select Pack Type[/b]"
+            pos_hint: self.width/2, self.height/2
+        Button:
+            background_color: (0.01, 0.95, 0.75, 0.7) 
+            font_size: 25
             text: 'Gold'
-            pack_selection: 'gold'
             on_release: root.button_press('gold')
         Button:
-            pack_selection: 'silver'
+            background_color: (0.01, 0.95, 0.75, 0.7) 
+            font_size: 25
             text: 'Silver'
             on_release: root.button_press('silver')
         Button:
+            background_color: (0.01, 0.95, 0.75, 0.7) 
+            font_size: 25
             text: 'Bronze'
-            pack_selection: 'bronze'
             on_release: root.button_press('bronze')
 
 <PackResult>:
     GridLayout:
+        size: root.width - 50, root.height -50
+        pos: 25,25
+        halign: 'center'
+        valign: 'center'
         cols:1
+        Image:
+            source: root.parent.manager.pack_img_path
+            allow_stretch: True
+            keep_ratio: True
         MDLabel: 
             id: result_pack
+            md_bg_color: utils.get_color_from_hex('#B1CCC3')
+            halign: 'center'
+            valign: 'center'
+            markup: True
+            color: utils.get_color_from_hex('#224238')
+            rgb: utils.get_color_from_hex('#224238')
+            font_size: 35
+            pos_hint: self.width/2, self.height/2
             text: root.parent.manager.pack
         # MDLabel:
         #     text: root.selection_pack(app.sm_sub.get_screen('packs').ids.selection)

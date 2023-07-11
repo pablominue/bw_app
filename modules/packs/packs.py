@@ -16,6 +16,7 @@ class PackWin(Widget):
         )
         chance += " of profit"
         self.parent.parent.pack = str(chance)
+        self.parent.parent.pack_img_path = f"assets/images/{_type}.jpg"
         self.parent.parent.current = 'packresult'
 
 class PackResult(Widget):
