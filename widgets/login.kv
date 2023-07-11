@@ -1,0 +1,79 @@
+#:kivy 2.2.1
+
+<SigninWin>:
+    username: username
+    email: email
+    password: password
+    GridLayout:
+        cols: 1
+        size: root.width - 50, root.height -50
+        pos: 25,25
+        GridLayout:
+            cols: 2
+            MDLabel:
+                text: "Introduce User Name:"
+            TextInput:
+                id: username
+                multinline: False
+            MDLabel:
+                text: "Introduce Email:"
+            TextInput:
+                id: email
+                multinline: False
+            MDLabel:
+                text: "Introduce Password"
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+
+        Button:
+            text: "Submit"
+            on_press: root.on_press()
+
+<LoginWin>:
+    lg_username: lg_username
+    lg_password: lg_password
+    GridLayout:
+        background_color: (0.01, 0.75, 0.95, 0.2) 
+        cols: 1
+        size: root.width - 50, root.height -50
+        pos: 25,25
+        GridLayout:
+            color: (0.01, 0.75, 0.95, 0.2) 
+            cols: 1
+            MDLabel:
+                text: "user"
+            TextInput:
+                id: lg_username
+                size_hint: (1, None)
+                height: self.minimum_height
+                multinline: False
+                # size_hint: (5,0.5)
+            MDLabel:
+                text: "password"
+            TextInput:
+                id: lg_password
+                password: True
+                size_hint: (1, None)
+                height: self.minimum_height
+                pos_hint: (0, 0)
+                pos: (0,0)
+                multiline: False
+
+        Button:
+            text: "Login"
+            background_color: (0.01, 0.75, 0.95, 0.7) 
+            size:(32, 32)
+            size_hint:(1, .2)
+            pos:(300, 250)
+            on_press: root.on_press()
+        
+        Button:
+            text: "Sign In"
+            background_color: (0.01, 0.95, 0.75, 0.7) 
+            size:(32, 32)
+            size_hint:(.2, .2)
+            pos:(300, 250)
+            on_press: root.signin()

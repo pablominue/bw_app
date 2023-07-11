@@ -1,0 +1,39 @@
+
+
+<-ContentMDDialog>
+    orientation: 'vertical'
+    padding: dp(15)
+    spacing: dp(10)
+    text_button_ok: ''
+    text_button_cancel: ''
+    MDLabel:
+        id: title
+        text: root.title
+        font_style: 'H6'
+        halign: 'left' if not root.device_ios else 'center'
+        valign: 'top'
+        size_hint_y: None
+        text_size: self.width, None
+        height: self.texture_size[1]
+    RecycleView:
+        id: rv
+        key_viewclass: 'viewclass'
+        key_size: 'height'
+        RecycleBoxLayout:
+            padding: dp(10)
+            default_size: None, dp(48)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+    MDSeparator:
+        id: sep
+    BoxLayout:
+        id: box_buttons
+        size_hint_y: None
+        height: dp(20)
+        padding: dp(20), 0, dp(20), 0
+BoxLayout:
+    Button:
+        text: "Example"
+        on_press: app.show_dialog()
