@@ -1,4 +1,5 @@
 #:kivy 2.2.1
+#:import utils kivy.utils
 
 <SigninWin>:
     username: username
@@ -44,17 +45,41 @@
             color: (0.01, 0.75, 0.95, 0.2) 
             cols: 1
             MDLabel:
-                text: "user"
+                md_bg_color:utils.get_color_from_hex('#B1CCC3') 
+                halign: 'center'
+                valign: 'center'
+                markup: True
+                font_size: 25
+                color: utils.get_color_from_hex('#224238')
+                rgb: utils.get_color_from_hex('#224238')
+                pos_hint: self.width/2, self.height/2
+                text: "[b]User[/b]"
             TextInput:
                 id: lg_username
+                background_color: utils.get_color_from_hex('#42826D')
+                foreground_color: utils.get_color_from_hex('#B1CCC3') 
+                valign: 'center'
+                halign: 'center'
                 size_hint: (1, None)
                 height: self.minimum_height
                 multinline: False
                 # size_hint: (5,0.5)
             MDLabel:
-                text: "password"
+                md_bg_color:utils.get_color_from_hex('#B1CCC3') 
+                halign: 'center'
+                valign: 'center'
+                markup: True
+                font_size: 25
+                color: utils.get_color_from_hex('#224238')
+                rgb: utils.get_color_from_hex('#224238')
+                pos_hint: self.width/2, self.height/2
+                text: "[b]Password[/b]"
             TextInput:
                 id: lg_password
+                background_color: utils.get_color_from_hex('#42826D')
+                foreground_color: utils.get_color_from_hex('#B1CCC3') 
+                valign: 'center'
+                halign: 'center'
                 password: True
                 size_hint: (1, None)
                 height: self.minimum_height

@@ -7,33 +7,24 @@ from kivymd.app import MDApp
 from kivy.factory import Factory
 import os
 import bw
-global PACK
-PACK = ''
 
 class PackWin(Widget):
-    #pack_selection = ObjectProperty(None)
-    selection = ''
     app = MDApp.get_running_app()
     def button_press(self, _type):
-        self.selection = _type
-        PACK = _type
-        print(PACK) 
+        chance = bw.get_pack(
+            _type
+        )
+        chance += " of profit"
+        self.parent.parent.pack = str(chance)
         self.parent.parent.current = 'packresult'
-        #self.root.sm_sub.current='packresult'
 
 class PackResult(Widget):
-    app = MDApp.get_running_app()
-    selectionpack = PACK
-    def selection_pack(self, value: str):
-        self.ids.selection.text = value
-        print(
-            bw.get_pack(
-            PACK)
-        )    
+    pass
 
-class SelectPack(Widget):
-    pack_selection = ObjectProperty(None)
-    app = MDApp.get_running_app()
-    def selection_pack(self, value: str):
-        self.pack_selection = value
-        print(self.pack_selection)
+# class PackResult(Widget):
+#     app = MDApp.get_running_app()
+#     def selection_pack(self, value: str):
+#         result = bw.get_pack(
+#             self.parent.parent.pack
+#         )
+#         return result

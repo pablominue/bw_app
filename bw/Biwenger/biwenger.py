@@ -69,7 +69,7 @@ class Pack:
         self.data = data
         self.type = type_.lower()
         if self.type not in ['gold', 'silver', 'bronze']:
-            raise Exception("Input 'type' must be one of these: 'gold', 'silver', 'bronze'")
+            raise Exception(f"Input 'type' must be one of these: 'gold', 'silver', 'bronze'. Provided was {type_}")
 
         if self.type == 'gold':
             self.range = [10000000, 30000000]

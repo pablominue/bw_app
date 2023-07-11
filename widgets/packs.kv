@@ -1,35 +1,31 @@
 #:kivy 2.2.1
-
-
+#:import utils kivy.utils
 
 <PackWin>:
-    # pack_selection: pack_selection
     GridLayout:
         #size_hint: self.width, self.height
         cols:1
-        color:(0.01, 0.95, 0.75, 0.1) 
         Button:
+            md_bg_color:utils.get_color_from_hex('#B1CCC3') 
+            font_size: 25
+            color: utils.get_color_from_hex('#224238')
             text: 'Gold'
             pack_selection: 'gold'
-            #size_hint: self.width/1.2, self.height / 5
             on_release: root.button_press('gold')
         Button:
             pack_selection: 'silver'
             text: 'Silver'
-            #size_hint: self.width/1.2, self.height / 5
             on_release: root.button_press('silver')
         Button:
             text: 'Bronze'
             pack_selection: 'bronze'
-            #size_hint: self.width/1.2, self.height / 5
             on_release: root.button_press('bronze')
 
 <PackResult>:
-    selectionpack: selectionpack
     GridLayout:
         cols:1
         MDLabel: 
-            id: selectionpack
-            text: ''
+            id: result_pack
+            text: root.parent.manager.pack
         # MDLabel:
         #     text: root.selection_pack(app.sm_sub.get_screen('packs').ids.selection)
