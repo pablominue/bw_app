@@ -3,6 +3,10 @@ import requests
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+
 
 class Data:
 
@@ -52,12 +56,18 @@ class Player:
                      'defender',
                      'midfielder',
                      'striker']
+        name = name.lower()
+        data.data['name'] = data.data['name'].apply(
+            lambda x: str(x).lower()
+        )
         self.player_data = data.data.loc[data.data['name'] == name]
+        if len(self.player_data) == 0:
+            raise Exception("Player not Found")
         self.value = int(self.player_data['price'])
         self.value_var = int(self.player_data['priceIncrement'])
         self.position = positions[int(self.player_data['position'])]
         self.profitability = float(self.player_data['profitability'])
-
+        
 
 class Team:
     def __init__(self):

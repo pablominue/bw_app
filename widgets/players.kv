@@ -1,0 +1,57 @@
+#:kivy 2.2.1
+#:import utils kivy.utils
+
+<PlayerWin>:
+    playersearch: playersearch
+    GridLayout:
+        size: root.width - 50, root.height -50
+        pos: 25,25
+        halign: 'center'
+        valign: 'center'
+        cols:1
+        MDLabel:
+            md_bg_color: utils.get_color_from_hex('#B1CCC3')
+            halign: 'center'
+            valign: 'center'
+            markup: True
+            color: utils.get_color_from_hex('#224238')
+            rgb: utils.get_color_from_hex('#224238')
+            font_size: 20
+            text:"[b]Type your Player[/b]"
+            pos_hint: self.width/2, self.height/2
+        TextInput:
+            id: playersearch
+            halign: 'center'
+            valign: 'center'
+            background_color: utils.get_color_from_hex('#B1CCC3')
+            color:utils.get_color_from_hex('#224238')
+            font_size: 30
+
+        Button:
+            background_color: (0.01, 0.95, 0.75, 0.7) 
+            font_size: 25
+            text: 'Search'
+            on_release: root.search_player(root.playersearch.text)
+
+<PlayerResult>:
+    GridLayout:
+        size: root.width - 50, root.height -50
+        pos: 25,25
+        halign: 'center'
+        valign: 'center'
+        cols:1
+        Image:
+            source: root.parent.manager.player_img_path
+            allow_stretch: True
+            keep_ratio: True
+        MDLabel: 
+            id: result_player
+            md_bg_color: utils.get_color_from_hex('#B1CCC3')
+            halign: 'center'
+            valign: 'center'
+            markup: True
+            color: utils.get_color_from_hex('#224238')
+            rgb: utils.get_color_from_hex('#224238')
+            font_size: 35
+            pos_hint: self.width/2, self.height/2
+            text: root.parent.manager.player

@@ -10,6 +10,9 @@
 #: import PackWin modules.packs.packs.PackWin
 #: import PackWin modules.packs.packs.PackResult
 
+#: include widgets/players.kv
+#: import PlayerWin modules.players.players.PlayerWin
+
 
 ScreenManager:
     id: sm_main
@@ -53,6 +56,8 @@ ScreenManager:
                 id: sm_sub
                 pack: ''
                 pack_img_path: '' 
+                player: ''
+                player_img_path: ''
                 Screen:
                     name:"home"
                     GridLayout:
@@ -77,6 +82,14 @@ ScreenManager:
                     name:"packresult"
                     id: packresult
                     PackResult:
+                Screen:
+                    name:"players"
+                    id: player
+                    PlayerWin:
+                Screen:
+                    name: "playerresult"
+                    id: playerresult
+                    PlayerResult:
     
         MDNavigationDrawer:
             id: nav_drawer
@@ -102,4 +115,14 @@ ScreenManager:
                     on_release:
                         nav_drawer.set_state()
                         sm_sub.current='packs'
+                Button:
+                    text:"Player"
+                    background_color: (0.01, 0.95, 0.75, 0.7) 
+                    #size:(32, 32)
+                    size_hint: (1, None)
+                    height: 50
+                    #pos:(300, 250)
+                    on_release:
+                        nav_drawer.set_state()
+                        sm_sub.current='players'
   
