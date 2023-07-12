@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
+import logging
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -11,6 +12,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 class Data:
 
     def __init__(self):
+        logging.debug('Retrieving data from Biwenger...')
         r = requests.get(
             "https://cf.biwenger.com/api/v2/competitions/la-liga/data?lang=en&score=1").json()
 
@@ -25,7 +27,8 @@ class Data:
             self.raw_data.append(v)
 
         self.data = pd.DataFrame(self.raw_data)
-
+        logging.debug('Data Loaded')
+        logging.debug('Creating Model...')
         X = self.data.loc[:, ['points']].values
 
         y = self.data.loc[:, 'price'].values
@@ -41,7 +44,7 @@ class Data:
         minimum = min(var)
 
         self.data = self.data.assign(profitability=2 * ((var - minimum) / (maximum - minimum)) - 1)
-
+        logging.debug('Data Ready for use')
         # best_profitability = self.data.sort_values(by = 'profitability',ascending = False)
         # count = 1
         # for i in best_profitability.head(10)['name'].values:
