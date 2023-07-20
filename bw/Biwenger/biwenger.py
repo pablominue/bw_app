@@ -10,6 +10,11 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import requests
 import json
 
+class APIException(Exception):
+    def __init__(self, message) -> None:
+        self.message = message
+        super().__init__(self.message)
+
 class BWApi:
     """
     API To connect to your Biwenger League
@@ -24,6 +29,7 @@ class BWApi:
                 './bw/Biwenger/biwenger.json' 
                 ).read()
         )
+        self.refresh_token()
 
     def refresh_token(self) -> None:
         data = {"email": self.email,
@@ -40,10 +46,10 @@ class BWApi:
     def try_with_token(fun):
         def inner(self, *args, **kwargs):
             try:
-                fun(self, *args, **kwargs)
+                return fun(self, *args, **kwargs)
             except:
                 self.refresh_token()
-                fun(self, *args, **kwargs)
+                return fun(self, *args, **kwargs)
         return inner
 
     @try_with_token
@@ -51,23 +57,37 @@ class BWApi:
         response = requests.get(
             self.base_url + endpoint, params=params, headers=self.headers
         ).json()
-        return response
+        if response.get('status') == 200:
+            return response
+        else:
+            raise APIException(f"Error {response.get('status')} on request: {response.get('message')}")
     
     @try_with_token
     def get(self, endpoint, params = None):
         response = requests.get(
             self.base_url + endpoint, params=params, headers=self.headers
         ).json()
-        return response
+        if response.get('status') == 200:
+            return response
+        else:
+            raise APIException(f"Error {response.get('status')} on request: {response.get('message')}")
+            
     def get_team(self):
         team = self.get(endpoint="/user?fields=*,lineup(type,playersID),players(*,fitness,team,owner),market(*,-userID),offers,-trophies",
                         params=self.ids)
         return team.get('data').get('lineup')
 
-    def get_market(self):
-        self.headers.update(self.ids)
-        mrkt = self.get(endpoint = "/competitions/la-liga/market?interval=day&includeValues=true&x-leaguehead", params = self.ids)
-        return mrkt
+    def get_market_offers(self, include_user_offers: bool = False):
+        mrkt = self.get(endpoint = "/market", params = self.ids)
+        mrkt = mrkt.get('data').get('sales')
+        if include_user_offers:
+            return mrkt
+        else:
+            n_mrkt = []
+            for offer in mrkt:
+                if offer.get('user') is not None:
+                    n_mrkt.append(offer)    
+        return n_mrkt
 
 
 class Data:
