@@ -33,16 +33,18 @@ class BWApi:
             url,
             data=data
         )
-        self.token = response['token']
+        self.token = json.loads(response.text).get('token')
         self.headers = {'Authorization': 'Bearer ' + self.token}
+        self.headers.update(self.ids)
     
     def try_with_token(fun):
         def inner(self, *args, **kwargs):
             try:
-                fun(*args, **kwargs)
+                fun(self, *args, **kwargs)
             except:
                 self.refresh_token()
-                fun(*args, **kwargs)
+                fun(self, *args, **kwargs)
+        return inner
 
     @try_with_token
     def __post(self, endpoint, params = None):
@@ -52,14 +54,20 @@ class BWApi:
         return response
     
     @try_with_token
-    def __get(self, endpoint, params = None):
+    def get(self, endpoint, params = None):
         response = requests.get(
             self.base_url + endpoint, params=params, headers=self.headers
         ).json()
         return response
     def get_team(self):
-        team = self.__get()
+        team = self.get(endpoint="/user?fields=*,lineup(type,playersID),players(*,fitness,team,owner),market(*,-userID),offers,-trophies",
+                        params=self.ids)
+        return team.get('data').get('lineup')
 
+    def get_market(self):
+        self.headers.update(self.ids)
+        mrkt = self.get(endpoint = "/competitions/la-liga/market?interval=day&includeValues=true&x-leaguehead", params = self.ids)
+        return mrkt
 
 
 class Data:
