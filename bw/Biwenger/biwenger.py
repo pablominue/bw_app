@@ -7,6 +7,59 @@ import logging
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+import requests
+import json
+
+class BWApi:
+    """
+    API To connect to your Biwenger League
+    """
+    def __init__(self, email: str, password: str) -> None:
+        self.email = email
+        self.password = password
+        self.base_url = 'https://biwenger.as.com/api/v2'
+        self.token = None
+        self.ids = json.loads(
+            open(
+                './bw/Biwenger/biwenger.json' 
+                ).read()
+        )
+
+    def refresh_token(self) -> None:
+        data = {"email": self.email,
+                "password": self.password}
+        url = self.base_url + '/auth/login'
+        response = requests.post(
+            url,
+            data=data
+        )
+        self.token = response['token']
+        self.headers = {'Authorization': 'Bearer ' + self.token}
+    
+    def try_with_token(fun):
+        def inner(self, *args, **kwargs):
+            try:
+                fun(*args, **kwargs)
+            except:
+                self.refresh_token()
+                fun(*args, **kwargs)
+
+    @try_with_token
+    def __post(self, endpoint, params = None):
+        response = requests.get(
+            self.base_url + endpoint, params=params, headers=self.headers
+        ).json()
+        return response
+    
+    @try_with_token
+    def __get(self, endpoint, params = None):
+        response = requests.get(
+            self.base_url + endpoint, params=params, headers=self.headers
+        ).json()
+        return response
+    def get_team(self):
+        team = self.__get()
+
 
 
 class Data:
